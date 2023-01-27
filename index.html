@@ -144,9 +144,9 @@
       const num_input = document.getElementById('winner-num');
       num_input.addEventListener('input', (e) => {
         if (e.target.value > 10) {
-          e.target.value = 10;
+          e.target.value = 10
         }
-        NUMBER = e.target.value
+        NUMBER = parseInt(e.target.value)
       })
 
       var names = new Array(
@@ -367,6 +367,10 @@
         $("#save").attr("disabled", "disabled");
         $("#headline").slideUp();
         $("#namesbox").slideDown();
+        if (isNaN(NUMBER) || NUMBER < 1) {
+          NUMBER = 1;
+          $("#winner-num").val(1);
+        }
         for (let i = 1; i <= NUMBER; i++) {
           $("div").remove(`#result${i}`);
         }
