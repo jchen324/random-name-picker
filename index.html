@@ -39,12 +39,9 @@
       }
       .extra {
         font-size: 16px;
-        margin-top: 20px;
+        margin-top: 5px;
       }
       #result1 {
-        background: #000;
-        color: #fbe34b;
-        padding: 20px;
         z-index: 10;
         margin-top: -150px;
       }
@@ -103,15 +100,18 @@
 
     <div class="row">
       <div class="large-12 columns" style="overflow: hidden; height: 100vh">
-        <h3
-          style="text-align: center; font-size: 45px; margin: 0"
-          id="headline"
-        >
+        <h1 style="text-align: center" id="headline">
           欢迎参与JHUCSSA兔年春晚抽奖，祝您好运！
-        </h3>
+        </h1>
 
+        <h3 id="prompt" style="text-align: center; font-size: medium">请输入中奖人数</h3>
+        <div id="winner-num-div" style="display: flex; justify-content: center">
+          <input name="winner-num" id="winner-num" placeholder="1" autocomplete="off" style="padding: 6px 0px; text-align: center"/>
+        </div>
         <div id="varnote">
           <img src="img/logo.jfif" />
+          <div class="copyright" style="margin-top:20px">&copy; Refactored by <strong>Jiarui Chen</strong> for JHUCSSA Spring Festival Celebration, January 2023</div>
+          <div class="copyright">&copy; Coded by <strong>Heiswayi Nrird</strong>, June 2013</div>
         </div>
 
         <div id="popdown">
@@ -138,7 +138,17 @@
     </script>
 
     <script>
-      var text;
+      var text=[];
+      var NUMBER=1;
+
+      const num_input = document.getElementById('winner-num');
+      num_input.addEventListener('input', (e) => {
+        if (e.target.value > 10) {
+          e.target.value = 10;
+        }
+        NUMBER = e.target.value
+      })
+
       var names = new Array(
         "Barbara McFell",
         "Tempo McKeteketly",
@@ -214,7 +224,7 @@
         "Idell Chagollan",
         "Michale Mcclod"
       );
-
+      
       function reset() {
         // re-enable go button
         setTimeout("$('#go').removeAttr('disabled')", 11005);
@@ -327,7 +337,9 @@
         $("#varnote").hide();
         $("#popdown").show();
         $("#values").hide();
-        $("div").remove("#result1");
+        for (let i = 1; i <= NUMBER; i++) {
+          $("div").remove(`#result${i}`);
+        }
         savenames = $("#namesbox").val();
         savenames = savenames.replace(/\n\r?/g, "101");
         $("#headline").fadeOut();
@@ -355,8 +367,10 @@
         $("#save").attr("disabled", "disabled");
         $("#headline").slideUp();
         $("#namesbox").slideDown();
+        for (let i = 1; i <= NUMBER; i++) {
+          $("div").remove(`#result${i}`);
+        }
 
-        $("div").remove("#result1");
         names = $("#namesbox").val();
         if (document.all) {
           // IE
@@ -365,6 +379,9 @@
           //Mozilla
           names = names.split("\n");
         }
+        $("#prompt").hide();
+        $("#winner-num-div").hide();
+        $("#winner-num").hide();
         $("#values").show();
         $(".name").show();
         $("#popdown").hide();
@@ -383,7 +400,7 @@
             count = count - 1;
           } else {
             name = names[i];
-            console.log(count, name);
+            // console.log(count, name);
             $("#values").append(
               "<div id=result" + count + " class=name>" + name + "</div>"
             );
@@ -406,7 +423,10 @@
           }
           count = count + 1;
         }
-        text = $("#result1").text();
+        for (let i = 1; i <= NUMBER; i++) {
+          text.push($(`#result${i}`).text())
+        }
+        //console.log(text);
         $("#values").animate({ top: "+176" }, 5000);
 
         // make it stand out
@@ -416,17 +436,26 @@
       }
 
       function standout(text) {
-        $("#result1").removeClass("name");
+        for (let i = 1; i <= NUMBER; i++) {
+          $(`#result${i}`).removeClass("name");
+          $(`#result${i}`).css("background-color", "black");
+          $(`#result${i}`).css("color", "#fbe34b");
+        }
         $(".name").animate({ opacity: 0.25 });
-        $("#result1").animate({ height: "+=45px" });
-        $("#result1").append(
-          '<div class="extra"><a class="small alert button" href="#" onClick="removevictim();">Remove name from list</a></div>'
+        $(`#result${NUMBER}`).animate({ height: "+=45px" });
+        $(`#result${NUMBER}`).append(
+          '<div class="extra"><a class="small alert button" href="#" onClick="removevictim();">Remove names from list</a></div>'
         );
         $("#go").removeAttr("disabled", "disabled");
         $("#list").removeAttr("disabled", "disabled");
         $("#save").removeAttr("disabled", "disabled");
-        $("#headline").text("恭喜这位同学！");
+        $("#headline").text(`恭喜以下${NUMBER}位同学！`);
+        $("#winner-num").attr("disabled", "disabled");
         $("#headline").slideDown();
+        $("#winner-num-div").show();
+        $("#winner-num").show();
+        $("#prompt").show();
+        text=[];
       }
 
       function removevictim() {
@@ -434,20 +463,24 @@
         // names = names.filter(function(){ return true});
         // Rewriting namesbox contents
         var nameupdated = "";
+        // console.log(text);
         for (var i in names) {
           name = names[i];
-          if (name == "" || name == text || typeof name == undefined) {
+          if (name == "" || text.includes(name) || typeof name == undefined) {
           } else {
             nameupdated = nameupdated + "\n" + name;
           }
         }
         $("#namesbox").val("");
         $("#namesbox").val(nameupdated);
-        $("#result1").html("Removed");
-        $("#result1").fadeOut();
+        for (let i = 1; i <= NUMBER; i++) {
+          $(`#result${i}`).html("Removed");
+          $(`#result${i}`).fadeOut();
+        }
         $("div").remove(".name");
         $("div").remove(".extra");
         $("#headline").text("成功！请单击Go进行下一轮抽奖。");
+        $("#winner-num").removeAttr("disabled", "disabled");
       }
     </script>
   </body>
