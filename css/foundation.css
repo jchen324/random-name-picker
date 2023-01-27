@@ -1868,7 +1868,7 @@ form.custom {
   .button-group:after {
     clear: both; }
   .button-group li {
-    margin: 0 0 0 -1px;
+    margin: 0 0 0 0;
     float: left; }
     .button-group li:first-child {
       margin-left: 0; }
