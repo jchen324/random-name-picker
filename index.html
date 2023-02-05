@@ -108,16 +108,15 @@
         <div id="winner-num-div" style="display: flex; justify-content: center">
           <input name="winner-num" id="winner-num" placeholder="1" autocomplete="off" style="padding: 6px 0px; text-align: center"/>
         </div>
-        <div id="varnote">
-          <img src="img/logo.jfif" />
-          <div class="copyright" style="margin-top:20px">&copy; Refactored by <strong>Jiarui Chen</strong> for JHUCSSA Spring Festival Celebration, January 2023</div>
-          <div class="copyright">&copy; Coded by <strong>Heiswayi Nrird</strong>, June 2013</div>
-        </div>
-
+       
         <div id="popdown">
           <div id="names" class="inbox">
             <textarea name="namesbox" id="namesbox"></textarea>
           </div>
+        </div>
+        <div id="varnote">
+          <div class="copyright" style="margin-top:20px">&copy; Refactored by <strong>Jiarui Chen</strong> for JHUCSSA Spring Festival Celebration, January 2023</div>
+          <div class="copyright">&copy; Coded by <strong>Heiswayi Nrird</strong>, June 2013</div>
         </div>
 
         <div id="values"></div>
@@ -334,7 +333,6 @@
       }
 
       function save() {
-        $("#varnote").hide();
         $("#popdown").show();
         $("#values").hide();
         for (let i = 1; i <= NUMBER; i++) {
@@ -349,7 +347,6 @@
       }
 
       function namelist() {
-        $("#varnote").hide();
         $("#namesbox").removeAttr("disabled", "disabled");
         $("#headline").text("Configure name list");
         $("#popdown").show();
@@ -485,6 +482,7 @@
         $("div").remove(".extra");
         $("#headline").text("成功！请单击Go进行下一轮抽奖。");
         $("#winner-num").removeAttr("disabled", "disabled");
+        $("#varnote").show();
       }
     </script>
   </body>
