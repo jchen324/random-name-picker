@@ -454,9 +454,6 @@
         $("#headline").text(`恭喜以下${NUMBER}位同学！`);
         $("#winner-num").attr("disabled", "disabled");
         $("#headline").slideDown();
-        $("#winner-num-div").show();
-        $("#winner-num").show();
-        $("#prompt").show();
         text = [];
       }
 
@@ -484,6 +481,9 @@
         $("#headline").text("成功！请单击Go进行下一轮抽奖。");
         $("#winner-num").removeAttr("disabled", "disabled");
         $("#varnote").show();
+        $("#winner-num-div").show();
+        $("#winner-num").show();
+        $("#prompt").show();
       }
     </script>
   </body>
